@@ -35,4 +35,8 @@ export class UserviewbookingComponent implements OnInit {
     })
   }
 
+  cancelBooking(id:number):void {
+    if(!confirm('Cancel this demo booking?')) return;
+    this.bookingService.deleteBooking(id).subscribe({next:()=>this.loadUserBookings(),error:()=>this.errorMessage='Unable to cancel booking. Please try again.'});
+  }
 }

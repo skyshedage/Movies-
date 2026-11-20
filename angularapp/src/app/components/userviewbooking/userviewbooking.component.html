@@ -1,9 +1,8 @@
 <div class="bookings-container">
   <h2>My Bookings</h2>
-<!-- 
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
-  </div> -->
+  </div>
 
   <div *ngIf="bookings.length === 0 && !errorMessage" class="no-bookings">
     You have no current bookings.
@@ -16,7 +15,8 @@
         <p>User ID: {{ booking.user.userId || 'N/A' }}</p>
         <p>Movie Title: {{ booking.movie.title || 'N/A' }}</p>
         <p>Seat Count: {{ booking.seatCount || 'N/A' }}</p>
-        <p>Total Cost: ₹{{ booking.totalCost ? (booking.totalCost | number:'1.2-2') : 'N/A' }}</p>
+        <p>Total Cost: ₹{{ booking.totalCost | number:'1.2-2' }}</p>
+        <button type="button" (click)="cancelBooking(booking.id)">Cancel booking</button>
       </div>
     </div>
   </div>

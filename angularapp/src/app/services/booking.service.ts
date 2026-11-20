@@ -23,6 +23,7 @@ export class BookingService {
   updateBooking(bookingId:number,updateBooking:Booking):Observable<Booking>{
     return this.http.put<Booking>(this.apiUrl+"/"+bookingId,updateBooking);
   }
+  deleteBooking(id:number):Observable<boolean>{return this.http.delete<boolean>(this.apiUrl+'/'+id);}
   getAllBookings():Observable<Booking[]>{
     return this.http.get<Booking[]>(this.apiUrl);
   }

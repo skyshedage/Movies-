@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import com.examly.springapp.repository.*;
 import com.examly.springapp.entity.*;
-@SpringBootTest(properties={
+@SpringBootTest(properties={"spring.flyway.enabled=false",
  "spring.datasource.url=jdbc:h2:mem:movies;MODE=MySQL;NON_KEYWORDS=USER;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE",
  "spring.datasource.driver-class-name=org.h2.Driver", "spring.jpa.hibernate.ddl-auto=create-drop",
  "MOVIES_JWT_SECRET=test-only-placeholder-with-at-least-32-bytes"

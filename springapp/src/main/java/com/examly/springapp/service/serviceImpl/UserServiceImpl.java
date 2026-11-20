@@ -28,6 +28,8 @@ public class UserServiceImpl implements UserService{
     private JwtUtils jwtutils;
 
     public User add(User user)throws Exception{
+        if(user.getEmail()==null || !user.getEmail().matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$") || user.getPassword()==null || user.getPassword().length()<8)
+            throw new IllegalArgumentException("A valid email and password of at least 8 characters are required");
         User newUser=userRepo.findByEmail(user.getEmail());
         if(newUser==null){
             user.setUserId(0);
@@ -35,7 +37,7 @@ public class UserServiceImpl implements UserService{
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
         }
-        throw new Exception("User Already exists");
+        throw new IllegalStateException("An account with this email already exists");
         
     }
     public List<User> getAll(){

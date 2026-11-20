@@ -11,17 +11,24 @@ import com.examly.springapp.service.MovieService;
 
 @Service
 public class MovieServiceImpl implements MovieService {
-    @Autowired
-    private MovieRepo repo;
-
-    @Override
-    public Movie addMovie(Movie m) {
-        return repo.save(m);
+    @Autowired private MovieRepo repo;
+    @Autowired private com.examly.springapp.repository.BookingRepo bookings;
+    private void validate(Movie m){
+        if(m.getTitle()==null || m.getTitle().isBlank() || m.getDuration()<=0 || m.getPrice()<0 || m.getTotalSeats()<=0)
+            throw new IllegalArgumentException("Title, positive duration/capacity and nonnegative price are required");
     }
 
     @Override
+    public Movie addMovie(Movie m) {
+        validate(m);m.setId(0);return repo.save(m);
+    }
+
+    @Override
+    @org.springframework.transaction.annotation.Transactional
     public Movie updateMovie(Long id, Movie m) {
-        Movie l = repo.findById(id).orElse(null);
+        validate(m);
+        Movie l = repo.findForBooking(id).orElse(null);
+        if(m.getTotalSeats()<bookings.countBookedSeatsByMovie(id)) throw new IllegalArgumentException("Capacity cannot be below booked seats");
         if (l == null) {
             return null;
         }

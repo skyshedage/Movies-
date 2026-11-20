@@ -46,6 +46,7 @@ export class UserbookingmovieComponent implements OnInit {
     this.movieService.getMovieById(this.movieId).subscribe(
       (data) => {
         this.movie = data;
+        this.maxSeats=Math.min(10,this.movie.totalSeats);
         this.calculateTotalCost();
       },
       (error) => {
@@ -97,13 +98,7 @@ export class UserbookingmovieComponent implements OnInit {
   }
 
   createBooking(): void {
-    const selectedSeatCount = this.countSelectedSeats();
-    
-    if (selectedSeatCount !== this.selectedSeats) {
-      alert(`Please select exactly ${this.selectedSeats} seats`);
-      return;
-    }
-
+    if(this.selectedSeats<1 || this.selectedSeats>this.maxSeats) {this.errorMessage='Choose a valid seat count.';return;}
     const booking: Booking = {
       userId: this.userId,
       movieId: this.movieId,
